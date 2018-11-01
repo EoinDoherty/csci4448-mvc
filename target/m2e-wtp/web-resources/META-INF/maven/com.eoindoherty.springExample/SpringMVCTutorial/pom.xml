@@ -7,6 +7,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>SpringMVCTutorial Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <properties>
+  	<org.springframework-version>5.0.6.RELEASE</org.springframework-version>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -28,7 +31,27 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.3.0.RELEASE</version>
+      <version>${org.springframework-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>${org.springframework-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${org.springframework-version}</version>
+	</dependency>
+	<dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${org.springframework-version}</version>
+	</dependency>
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-driver</artifactId>
+      <version>3.6.4</version>
     </dependency>
   </dependencies>
   <build>

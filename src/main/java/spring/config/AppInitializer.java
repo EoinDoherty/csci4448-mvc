@@ -4,11 +4,15 @@ import javax.servlet.*;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class AppInitializer implements WebApplicationInitializer {
 	public void onStartup(ServletContext container) throws ServletException {
-		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+		AnnotationConfigWebApplicationContext context = 
+				new AnnotationConfigWebApplicationContext();
+		
+		context.scan("spring.controllers");
 		context.register(AppConfig.class);
 		context.setServletContext(container);
 		
@@ -18,5 +22,4 @@ public class AppInitializer implements WebApplicationInitializer {
 		servlet.setLoadOnStartup(1);
 		servlet.addMapping("/");
 	}
-
 }

@@ -1,0 +1,8 @@
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:18:30 -0600] "GET /SpringMVCTutorial/ HTTP/1.1" 200 52 http-bio-8080-exec-1 136
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:19:21 -0600] "GET /SpringMVCTutorial/home HTTP/1.1" 500 5981 http-bio-8080-exec-2 1493
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:24:12 -0600] "GET /SpringMVCTutorial/home HTTP/1.1" 200 289 http-bio-8080-exec-1 1718
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:24:19 -0600] "POST /test HTTP/1.1" 404 - http-bio-8080-exec-2 0
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:24:23 -0600] "GET /home HTTP/1.1" 404 - http-bio-8080-exec-3 0
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:24:29 -0600] "GET /SpringMVCTutorial/home HTTP/1.1" 200 289 http-bio-8080-exec-4 6
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:24:56 -0600] "GET /SpringMVCTutorial/home HTTP/1.1" 200 306 http-bio-8080-exec-5 162
+0:0:0:0:0:0:0:1 - - [16/Oct/2018:00:25:00 -0600] "POST /SpringMVCTutorial/SpringMVCTutorial/test HTTP/1.1" 404 1031 http-bio-8080-exec-6 18
