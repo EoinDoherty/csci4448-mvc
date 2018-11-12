@@ -7,26 +7,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.Note;
+import models.NoteChange;
 import models.User;
 
 @Controller
+@SessionAttributes("userClass")
 public class NoteController {
 	
 	@Autowired
 	private ServletContext sc;
-	private Note n;
-	private User u;
 	
-	private void setNoteById(String id) {
+	private Note n;
+	
+	private void setNoteById(String id, User u) {
 		if (n == null || !n.getId().equals(id)) {
 			if (id.equals("")) {
-				n = new Note();
+				n = new Note(u);
 				return;
 			}
-			n = new Note(id);
+			n = new Note(u, id);
 		}
 	}
 	
@@ -35,25 +38,25 @@ public class NoteController {
 			@ModelAttribute("userClass") User u) {
 		ModelAndView mv = new ModelAndView();
 		
-		setNoteById(id);
-		this.u = u;
+		setNoteById(id, u);
 		
-		mv.addObject("noteModel", n);
-		mv.addObject("user", u);
+		mv.addObject("noteModel", n.getNoteChange());
 		mv.addObject("contextPath", sc.getContextPath());
 		
 		return mv;
 	}
 	
 	@RequestMapping("/update")
-	public ModelAndView updateNote(@ModelAttribute("noteModel") Note formNote) {
-		//System.out.println(formNote.getTitle() + formNote.getText());
-		n.setText(formNote.getText());
-		n.setTitle(formNote.getTitle());
-		n.saveChanges();
+	public ModelAndView updateNote(@ModelAttribute("noteModel") NoteChange formNote, @ModelAttribute("userClass") User u) {
+//		System.out.println("user " + u.getUsername());
+//		n.setText(formNote.getText());
+//		n.setTitle(formNote.getTitle());
+//		n.setUsername(u.getUsername());
+//		n.saveChanges();
+		n.overwrite(formNote);
 		
 		ModelAndView mv = new ModelAndView("redirect:/note");
-		mv.addObject("noteModel", n);
+		mv.addObject("noteModel", n.getNoteChange());
 		mv.addObject("noteId", n.getId());
 		
 		return mv;

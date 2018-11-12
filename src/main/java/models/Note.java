@@ -10,21 +10,33 @@ public class Note {
 	private String collectionName = "Notes";
 	private Document noteDoc;
 	private DatabaseManager db;
+	private User user;
 
-	public Note(String dbId) {
+	public Note(User u, String dbId) {
 		this.dbId = dbId;
 		
 		db = new DatabaseManager();
 		
 		noteDoc = db.getDocumentById(this.collectionName, this.dbId);
+		user = u;
+		setUsername(u.getUsername());
 	}
 	
-	public Note() {
+	public Note(User u) {
 		this.dbId = "";
 		db = new DatabaseManager();
 		
 		noteDoc = new Document("title", "");
 		noteDoc.put("text", "");
+		noteDoc.put("user", u.getUsername());
+	}
+	
+	public NoteChange getNoteChange() {
+		NoteChange nc = new NoteChange();
+		nc.setText(getText());
+		nc.setTitle(getTitle());
+		
+		return nc;
 	}
 	
 	public String getId() {
@@ -44,6 +56,12 @@ public class Note {
 		System.out.println(dbId);
 	}
 	
+	public void overwrite(NoteChange nc) {
+		setTitle(nc.getTitle());
+		setText(nc.getText());
+		saveChanges();
+	}
+	
 	public void setCollectionName(String name) {
 		collectionName = name;
 	}
@@ -56,12 +74,20 @@ public class Note {
 		return noteDoc.getString("text");
 	}
 	
+	public String getUsername() {
+		return noteDoc.getString("user");
+	}
+	
 	public void setTitle(String title) {
 		noteDoc.put("title", title);
 	}
 	
 	public void setText(String text) {
 		noteDoc.put("text", text);
+	}
+	
+	public void setUsername(String u) {
+		noteDoc.put("user", user.getUsername());
 	}
 	
 }
