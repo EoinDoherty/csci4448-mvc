@@ -48,16 +48,23 @@ public class NoteController {
 	
 	@RequestMapping("/update")
 	public ModelAndView updateNote(@ModelAttribute("noteModel") NoteChange formNote, @ModelAttribute("userClass") User u) {
-//		System.out.println("user " + u.getUsername());
-//		n.setText(formNote.getText());
-//		n.setTitle(formNote.getTitle());
-//		n.setUsername(u.getUsername());
-//		n.saveChanges();
 		n.overwrite(formNote);
 		
 		ModelAndView mv = new ModelAndView("redirect:/note");
 		mv.addObject("noteModel", n.getNoteChange());
 		mv.addObject("noteId", n.getId());
+		
+		return mv;
+	}
+	
+	@RequestMapping("/deleteNote")
+	public ModelAndView deleteNote(@ModelAttribute("noteId") String noteId) {
+		ModelAndView mv = new ModelAndView("redirect:/user");
+		System.out.println("request to delete: " + noteId);
+		
+		if (!noteId.equals("")) {
+			n.deleteNote();
+		}
 		
 		return mv;
 	}

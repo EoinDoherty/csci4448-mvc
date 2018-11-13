@@ -33,6 +33,14 @@ public class DatabaseManager {
 		return collection.find(doc).first();
 	}
 	
+	public void deleteById(String collectionName, String id) {
+		MongoCollection<Document> collection = db.getCollection(collectionName);
+		
+		Document doc = new Document("_id", new ObjectId(id));
+		
+		collection.deleteOne(doc);
+	}
+	
 	public Iterable<Document> getDocumentsByFilter(String collectionName, Document docFilter) {
 		MongoCollection<Document> coll = db.getCollection(collectionName);
 		return coll.find(docFilter);
@@ -54,25 +62,12 @@ public class DatabaseManager {
 	}
 	
 	public static void main(String args[]) {
-//		DatabaseManager db = new DatabaseManager();
-//		Document filter = new Document("user", "user");
-//		Iterable<Document> it = db.getDocumentsByFilter("Notes", filter);
-//		
-//		for (Document d: it) {
-//			System.out.println(d);
-//		}
+		DatabaseManager db = new DatabaseManager();
 		
-		Document doc = new Document("foo", "bar");
+//		Document doc = new Document("_id", new ObjectId(""));
 		
-		System.out.println(doc.toJson());
+//		db.deleteById("Test", "5bea4f1130b600fe508a325b");
 		
-		doc.put("foo", "baz");
-		
-		System.out.println(doc.toJson());
-		
-		doc.put("a", "b");
-		
-		System.out.println(doc.toJson());
 	}
 	
 }

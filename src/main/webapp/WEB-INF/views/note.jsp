@@ -21,6 +21,7 @@
 	  	</tr>
   	</table>
   </form:form>
-  <a href="">Back</a>
+  <a href="${contextPath}/user"><button>Back to home page</button></a>
+  <a href="${contextPath}/deleteNote?noteId=${noteId}"><button>Delete</button></a>
 </body>
 </html>

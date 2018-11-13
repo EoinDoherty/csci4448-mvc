@@ -14,17 +14,26 @@ public class Note {
 
 	public Note(User u, String dbId) {
 		this.dbId = dbId;
+		user = u;
 		
 		db = new DatabaseManager();
 		
 		noteDoc = db.getDocumentById(this.collectionName, this.dbId);
-		user = u;
-		setUsername(u.getUsername());
+		
+		if (noteDoc == null) {
+			this.dbId = "";
+			noteDoc = new Document();
+			
+			setTitle("");
+			setText("");
+			setUsername(u.getUsername());
+		}
 	}
 	
 	public Note(User u) {
 		this.dbId = "";
 		db = new DatabaseManager();
+		user = u;
 		
 		noteDoc = new Document("title", "");
 		noteDoc.put("text", "");
@@ -88,6 +97,16 @@ public class Note {
 	
 	public void setUsername(String u) {
 		noteDoc.put("user", user.getUsername());
+	}
+
+	public void deleteNote() {
+		if (dbId.equals("")) {
+			setTitle("");
+			setText("");
+			return;
+		}
+		
+		db.deleteById(this.collectionName, dbId);
 	}
 	
 }
