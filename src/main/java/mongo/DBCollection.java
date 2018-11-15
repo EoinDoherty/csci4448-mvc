@@ -57,4 +57,12 @@ public class DBCollection {
 			collection.findOneAndReplace(new Document(ID_KEY, new ObjectId(id)), doc);
 		}
 	}
+	
+	public Iterable<Document> searchCollectionContents(String query, String username) {
+		Document searchDoc = new Document("user", username); 
+		searchDoc.put("$text", new Document("$search", query));
+		
+		return collection.find(searchDoc);
+	}
+
 }
