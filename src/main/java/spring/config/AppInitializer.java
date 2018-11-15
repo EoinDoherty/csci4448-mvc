@@ -7,6 +7,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import mongo.DBCollectionFactory;
+
 public class AppInitializer implements WebApplicationInitializer {
 	public void onStartup(ServletContext container) throws ServletException {
 		AnnotationConfigWebApplicationContext context = 
@@ -21,5 +23,6 @@ public class AppInitializer implements WebApplicationInitializer {
 		
 		servlet.setLoadOnStartup(1);
 		servlet.addMapping("/");
+		DBCollectionFactory.initializeFactory();
 	}
 }

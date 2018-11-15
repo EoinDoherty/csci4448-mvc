@@ -3,22 +3,25 @@ package models;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import mongo.DBCollection;
+import mongo.DBCollectionFactory;
 import mongo.DatabaseManager;
 
 public class Note {
 	private String dbId;
 	private String collectionName = "Notes";
 	private Document noteDoc;
-	private DatabaseManager db;
+	//private DatabaseManager db;
+	private DBCollection dbColl;
 	private User user;
 
 	public Note(User u, String dbId) {
 		this.dbId = dbId;
 		user = u;
 		
-		db = new DatabaseManager();
+		dbColl = DBCollectionFactory.getCollection(this.collectionName);
 		
-		noteDoc = db.getDocumentById(this.collectionName, this.dbId);
+		noteDoc = dbColl.getDocumentById(this.dbId);
 		
 		if (noteDoc == null) {
 			this.dbId = "";
@@ -32,7 +35,7 @@ public class Note {
 	
 	public Note(User u) {
 		this.dbId = "";
-		db = new DatabaseManager();
+		dbColl = DBCollectionFactory.getCollection(this.collectionName);
 		user = u;
 		
 		noteDoc = new Document("title", "");
@@ -57,8 +60,8 @@ public class Note {
 	}
 	
 	public void saveChanges() {
-		db.writeToDatabase(collectionName, dbId, noteDoc);
-		noteDoc = db.findDocumentByFilter(collectionName, noteDoc);
+		dbColl.writeToDatabase(dbId, noteDoc);
+		noteDoc = dbColl.getDocumentByFilter(noteDoc);
 		ObjectId oid = (ObjectId) noteDoc.get("_id");
 		System.out.println(dbId);
 		dbId = oid.toHexString();
@@ -106,7 +109,7 @@ public class Note {
 			return;
 		}
 		
-		db.deleteById(this.collectionName, dbId);
+		dbColl.deleteById(dbId);
 	}
 	
 }

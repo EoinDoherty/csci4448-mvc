@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.bson.Document;
 
+import mongo.DBCollection;
+import mongo.DBCollectionFactory;
 import mongo.DatabaseManager;
 
 public class User {
 	private String username;
-	private DatabaseManager db;
+	//private DatabaseManager db;
+	private DBCollection dbColl;
 	private String noteCollectionName = "Notes";
 	
 	public User(String username) {
@@ -25,10 +28,10 @@ public class User {
 	}
 	
 	public List<Document> getUserNotes() {
-		db = new DatabaseManager();
+		dbColl = DBCollectionFactory.getCollection(this.noteCollectionName);
 		
 		Document filter = new Document("user", username);
-		Iterable<Document> docs = db.getDocumentsByFilter(noteCollectionName, filter);
+		Iterable<Document> docs = dbColl.getDocumentsByFilter(filter);
 		
 		List<Document> docL = new ArrayList<Document>();
 		

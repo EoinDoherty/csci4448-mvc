@@ -27,7 +27,6 @@ import mongo.DatabaseManager;
 @SessionAttributes("userClass")
 public class UserPageController {
 	
-	private DatabaseManager db;
 	private String noteCollectionName = "Notes";
 	private User u;
 	
