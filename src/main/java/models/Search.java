@@ -31,8 +31,4 @@ public class Search {
 		
 		return docL;
 	}
-	
-	public String getString() {
-		return "class called correctly";
-	}
 }

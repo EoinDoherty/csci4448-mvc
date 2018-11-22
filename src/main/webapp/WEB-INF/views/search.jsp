@@ -14,9 +14,6 @@
     </table>
   </form>
   
-  <p>Doesn't look like anything to me</p>
-  <p>${searchClass.getString()}</p>
-  
   <h3>Results:</h3>
   
   <c:set var="notes" value="${searchClass.getSearchResults()}"/>

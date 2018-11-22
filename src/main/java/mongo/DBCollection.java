@@ -42,6 +42,12 @@ public class DBCollection {
 		return collection.find(docFilter);
 	}
 	
+	public Document getDocumentByValue(String key, String value) {
+		Document docFilter = new Document(key, value);
+		
+		return collection.find(docFilter).first();
+	}
+	
 	public Iterable<Document> getDocumentsByFilter(Document docFilter) {
 		return collection.find(docFilter);
 	}
@@ -50,9 +56,13 @@ public class DBCollection {
 		return collection.find(docFilter).first();
 	}
 	
+	public void writeToDatabase(Document doc) {
+		collection.insertOne(doc);
+	}
+	
 	public void writeToDatabase(String id, Document doc) {
 		if (id == "") {
-			collection.insertOne(doc);
+			writeToDatabase(doc);
 		} else {
 			collection.findOneAndReplace(new Document(ID_KEY, new ObjectId(id)), doc);
 		}
