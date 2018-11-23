@@ -20,15 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import models.Note;
 import models.User;
+import models.UserPage;
 import mongo.DatabaseManager;
 
 @Controller
 @RequestMapping("/user")
 @SessionAttributes("userClass")
 public class UserPageController {
-	
-	private String noteCollectionName = "Notes";
-	private User u;
 	
 	@Autowired
 	private ServletContext sc;
@@ -39,10 +37,16 @@ public class UserPageController {
 	}
 
 	@RequestMapping(method=RequestMethod.GET)
-	public ModelAndView loadUserPage(@ModelAttribute("userClass") User u, BindingResult result, ModelMap model) {
+	public ModelAndView loadUserPage(@ModelAttribute("userClass") User u, @ModelAttribute("usr") String usr, BindingResult result, ModelMap model) {
+		
+		UserPage up = new UserPage(u, usr);
+		
+		System.out.println(u.getUsername());
+		
 		ModelAndView m = new ModelAndView("userPage");
 		m.addObject("contextPath", sc.getContextPath());
-		m.addObject("userNotes", u.getUserNotes());
+		m.addObject("userPageClass", up);
+		m.addObject("userNotes", up.getNotes());
 		return m;
 	}
 	

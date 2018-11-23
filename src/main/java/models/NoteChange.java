@@ -4,6 +4,11 @@ public class NoteChange {
 	
 	private String text;
 	private String title;
+	private String username;
+	
+	public String getUsername() {
+		return username;
+	}
 	
 	public String getText() {
 		return text;
@@ -11,6 +16,10 @@ public class NoteChange {
 	
 	public String getTitle() {
 		return title;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public void setText(String text) {

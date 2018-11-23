@@ -11,7 +11,6 @@ public class Note {
 	private String dbId;
 	private String collectionName = "Notes";
 	private Document noteDoc;
-	//private DatabaseManager db;
 	private DBCollection dbColl;
 	private User user;
 
@@ -45,6 +44,7 @@ public class Note {
 	
 	public NoteChange getNoteChange() {
 		NoteChange nc = new NoteChange();
+		nc.setUsername(getUsername());
 		nc.setText(getText());
 		nc.setTitle(getTitle());
 		
