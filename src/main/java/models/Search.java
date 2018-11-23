@@ -10,18 +10,21 @@ import mongo.DBCollectionFactory;
 
 public class Search {
 	private String searchString;
-	private DBCollection dbColl;
-	private String collectionName = "Notes";
+	private DBCollection noteColl;
+	private DBCollection userColl;
+	private final String noteCollName = "Notes";
+	private final String userCollName = "Users"; 
 	private User user;
 	
 	public Search(String query, User u) {
 		searchString = query;
 		user = u;
-		dbColl = DBCollectionFactory.getCollection(collectionName);
+		noteColl = DBCollectionFactory.getCollection(noteCollName);
+		userColl = DBCollectionFactory.getCollection(userCollName);
 	}
 	
 	public List<Document> getSearchResults() {
-		Iterable<Document> docs = dbColl.searchCollectionContents(searchString, user.getUsername());
+		Iterable<Document> docs = noteColl.searchCollectionContents(searchString);
 		
 		List<Document> docL = new ArrayList<Document>();
 		
@@ -30,5 +33,27 @@ public class Search {
 		}
 		
 		return docL;
+	}
+	
+	public List<String> searchUsers() {
+		Iterable<Document> docs = userColl.searchCollectionContents(searchString);
+		
+		List<String> userL = new ArrayList<String>();
+		
+		for (Document doc: docs) {
+			userL.add(doc.getString("username"));
+		}
+		
+		return userL;
+	}
+	
+	public static void main(String args[]) {
+		Search s = new Search("user", null);
+		
+		List<String> users = s.searchUsers();
+		
+		for(String str: users) {
+			System.out.println(str);
+		}
 	}
 }

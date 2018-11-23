@@ -16,6 +16,20 @@
   
   <h3>Results:</h3>
   
+  <h4>Users:</h4>
+  <c:set var="users" value="${searchClass.searchUsers()}"/>
+  <ul>
+  	<c:forEach items="${searchClass.searchUsers()}" var="searchUsers">
+  	  <c:set var="searchUser" value="${searchUsers}"/>
+  	  <li><a href="${contextPath}/user?usr=${searchUser}">${searchUser}</a></li>
+      <!--
+      <c:set var="id" value="${contextPath}/user/redirectNote?id=${item.get(\"_id\")}"/>
+      <li><a href="${id}">${item.get("title")}</a></li>
+      -->
+  	</c:forEach>
+  </ul>
+  
+  <h4>Notes:</h4>
   <c:set var="notes" value="${searchClass.getSearchResults()}"/>
   <ul>
   	<c:forEach items="${notes}" var="item">

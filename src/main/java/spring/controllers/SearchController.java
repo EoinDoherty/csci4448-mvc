@@ -32,5 +32,4 @@ public class SearchController {
 		mv.addObject("searchClass", s);
 		return mv;
 	}
-	
 }

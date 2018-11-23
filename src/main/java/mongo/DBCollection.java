@@ -68,11 +68,9 @@ public class DBCollection {
 		}
 	}
 	
-	public Iterable<Document> searchCollectionContents(String query, String username) {
-		Document searchDoc = new Document("user", username); 
-		searchDoc.put("$text", new Document("$search", query));
+	public Iterable<Document> searchCollectionContents(String query) {
+		Document searchDoc = new Document("$text", new Document("$search", query));
 		
 		return collection.find(searchDoc);
 	}
-
 }
