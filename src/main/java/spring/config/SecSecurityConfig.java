@@ -8,15 +8,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 // Source: https://www.baeldung.com/spring-security-login
 
+/**
+ * Security configuration for login and signup
+ * @author eoin
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	/**
+	 * Configure authentication manager 
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
-		.withUser("testUser").password("password");
+		.withUser("user").password("password");
 	}
 	
+	/**
+	 * Configure http security
+	 */
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers("/login*").anonymous()
@@ -24,7 +36,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		.formLogin()
 		.loginPage("/login")
-		.defaultSuccessUrl("/home")
+		.defaultSuccessUrl("/user")
 		.failureUrl("/login?error=true")
 		.and()
 		.logout().logoutSuccessUrl("/login");

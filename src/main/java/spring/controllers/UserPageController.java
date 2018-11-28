@@ -21,8 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 import models.Note;
 import models.User;
 import models.UserPage;
-import mongo.DatabaseManager;
 
+/**
+ * Controller for user page
+ * @author eoin
+ *
+ */
 @Controller
 @RequestMapping("/user")
 @SessionAttributes("userClass")
@@ -31,17 +35,16 @@ public class UserPageController {
 	@Autowired
 	private ServletContext sc;
 
-	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView loadUserPage(Model model) {
-		return new ModelAndView("userPage", "userClass", new User("default"));
-	}
-
+	/**
+	 * Load the user page
+	 * @param u User object for user viewing the page
+	 * @param usr optional String of what user's page to view
+	 * @return ModelAndView of userPage with model added
+	 */
 	@RequestMapping(method=RequestMethod.GET)
-	public ModelAndView loadUserPage(@ModelAttribute("userClass") User u, @ModelAttribute("usr") String usr, BindingResult result, ModelMap model) {
+	public ModelAndView loadUserPage(@ModelAttribute("userClass") User u, @ModelAttribute("usr") String usr) {
 		
 		UserPage up = new UserPage(u, usr);
-		
-		System.out.println(u.getUsername());
 		
 		ModelAndView m = new ModelAndView("userPage");
 		m.addObject("contextPath", sc.getContextPath());
@@ -50,9 +53,14 @@ public class UserPageController {
 		return m;
 	}
 	
+	/**
+	 * Redirect from the user page to a note
+	 * @param u User object for user who requested this page
+	 * @param selectedId String database id of the note requested
+	 * @return ModelAndView for note page
+	 */
 	@RequestMapping(value="/redirectNote", method=RequestMethod.GET)
-	public ModelAndView redirectNote(@ModelAttribute("userClass") User u, 
-			@RequestParam("id") String selectedId, BindingResult result, ModelMap model) {
+	public ModelAndView redirectNote(@ModelAttribute("userClass") User u, @RequestParam("id") String selectedId) {
 		
 		ModelAndView mv = new ModelAndView("redirect:/note");
 		mv.addObject("noteId", selectedId);
@@ -60,6 +68,11 @@ public class UserPageController {
 		return mv;
 	}
 	
+	/**
+	 * Redirect to a new note page
+	 * @param u User object for user who created the new note
+	 * @return ModelAndView for note page
+	 */
 	@RequestMapping(value="/newNote", method=RequestMethod.GET)
 	public ModelAndView newNote(@ModelAttribute("userClass") User u) {
 		return new ModelAndView("redirect:/note");

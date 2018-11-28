@@ -14,6 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 import models.Search;
 import models.User;
 
+/**
+ * Controller for search results page
+ * @author eoin
+ *
+ */
 @Controller
 @SessionAttributes("userClass")
 public class SearchController {
@@ -23,6 +28,12 @@ public class SearchController {
 	@Autowired
 	private ServletContext sc;
 
+	/**
+	 * Run the search
+	 * @param u User object for user who requested the search
+	 * @param searchQuery String search query
+	 * @return ModelAndView for search page with requested data added
+	 */
 	@RequestMapping(value="/search", method=RequestMethod.POST)
 	public ModelAndView handleSearch(@ModelAttribute("userClass") User u, @ModelAttribute("query") String searchQuery) {
 		s = new Search(searchQuery, u);

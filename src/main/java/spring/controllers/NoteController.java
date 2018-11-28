@@ -14,6 +14,11 @@ import models.Note;
 import models.NoteChange;
 import models.User;
 
+/**
+ * Controller for note page
+ * @author eoin
+ *
+ */
 @Controller
 @SessionAttributes("userClass")
 public class NoteController {
@@ -33,6 +38,12 @@ public class NoteController {
 		}
 	}
 	
+	/**
+	 * Set up note page
+	 * @param id String database id of the note
+	 * @param u User object of the user accessing this note
+	 * @return ModelAndView of this page with the proper data added
+	 */
 	@RequestMapping(value="/note", method=RequestMethod.GET)
 	public ModelAndView setUpNote(@ModelAttribute("noteId") String id, 
 			@ModelAttribute("userClass") User u) {
@@ -46,6 +57,12 @@ public class NoteController {
 		return mv;
 	}
 	
+	/**
+	 * Write changes to the note to the database
+	 * @param formNote NoteChange object to store the edits made to the note
+	 * @param u User class of user viewing the note
+	 * @return ModelAndView back to the note page
+	 */
 	@RequestMapping("/update")
 	public ModelAndView updateNote(@ModelAttribute("noteModel") NoteChange formNote, @ModelAttribute("userClass") User u) {
 		n.overwrite(formNote);
@@ -57,10 +74,14 @@ public class NoteController {
 		return mv;
 	}
 	
+	/**
+	 * Delete this note from the database
+	 * @param noteId String database id of the note
+	 * @return ModelAndView redirecting to the user page
+	 */
 	@RequestMapping("/deleteNote")
 	public ModelAndView deleteNote(@ModelAttribute("noteId") String noteId) {
 		ModelAndView mv = new ModelAndView("redirect:/user");
-		System.out.println("request to delete: " + noteId);
 		
 		if (!noteId.equals("")) {
 			n.deleteNote();
@@ -68,6 +89,4 @@ public class NoteController {
 		
 		return mv;
 	}
-	
-	//TODO: Add redirect to user page
 }

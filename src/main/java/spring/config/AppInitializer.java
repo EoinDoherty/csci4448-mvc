@@ -9,7 +9,16 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import mongo.DBCollectionFactory;
 
+/**
+ * Intialize the application
+ * @author eoin
+ *
+ */
 public class AppInitializer implements WebApplicationInitializer {
+	/**
+	 * Steps to take on startup
+	 * configure servlet, database connection, and DBCollectionFactory
+	 */
 	public void onStartup(ServletContext container) throws ServletException {
 		AnnotationConfigWebApplicationContext context = 
 				new AnnotationConfigWebApplicationContext();

@@ -8,7 +8,14 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-// Flyweight factory
+/**
+ * Flyweight factory for DBCollections
+ * Controls access to database 
+ * ensures only one MongoDatabase instance exists
+ * and only one MongoCollection instance exists per collection
+ * @author eoin
+ *
+ */
 public class DBCollectionFactory {
 	
 	private static MongoDatabase db;
@@ -20,11 +27,21 @@ public class DBCollectionFactory {
 	// MongoCollections are thread safe, so sharing them should be fine
 	private static HashMap<String, MongoCollection<Document>> collections = new HashMap<String, MongoCollection<Document>>();
 	
+	/**
+	 * Static method to initialize one global instance of this factory
+	 */
 	public static void initializeFactory() {
 		mc = new MongoClient(hostName, hostPort);
 		db = mc.getDatabase(dbName);
 	}
 	
+	/**
+	 * Static method to create a DBCollection object
+	 * This will only create a new MongoCollection if that collection has not been accessed before
+	 * If this collection has been accessed before, it will use an existing MongoCollection
+	 * @param collectionName String name of the collection the DBCollection represents
+	 * @return DBCollection for the requested collection
+	 */
 	public static DBCollection getCollection(String collectionName) {
 		if (mc == null || db == null) {
 			System.out.println("initializing the factory");

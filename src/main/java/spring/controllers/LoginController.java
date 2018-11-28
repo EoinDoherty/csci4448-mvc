@@ -17,29 +17,45 @@ import models.Login;
 import models.Signup;
 import models.User;
 
+/**
+ * Controller for login page
+ * @author eoin
+ *
+ */
 @Controller
 //@RequestMapping("/login")
 @SessionAttributes("userClass")
 public class LoginController {
 	
+	/**
+	 * Generate a temporary user class when login page is accessed
+	 * @param model Model for the page
+	 * @return ModelAndView directing to login
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(Model model) {
-		System.out.println("GET");
+		System.out.println("GET login");
 		ModelAndView mv = new ModelAndView("login");
 		mv.addObject("userClass", null);
 		return mv;
 	}
 	
+	/**
+	 * Log a user in
+	 * If the user's credentials are correct, redirect to processUser
+	 * @param username String username from login form submission
+	 * @param password String password from login form submission
+	 * @return ModelAndView directing to the right place
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	@ModelAttribute("userClass")
 	public ModelAndView handleLogin(@ModelAttribute("u") String username, @ModelAttribute("p") String password) {
 		
 		Login l = new Login(username, password);
 		
 		if (l.isValid()) {
-			User u = new User(username);
+			System.out.println("redirecting");
 			ModelAndView mv = new ModelAndView("redirect:/processUser");
-			mv.addObject("userClass", u);
+			mv.addObject("usr", username);
 			
 			return mv;
 		}
@@ -47,24 +63,41 @@ public class LoginController {
 		return new ModelAndView("login");
 	}
 	
-	// Redirecting from /login and /signup led to username and password being in the url
-	// Plus this is a common point between login and signup which could be useful in the future
+	/**
+	 * Common endpoint between login and signup
+	 * Takes username and generates a User object
+	 * @param username String username
+	 * @return ModelAndView to user page
+	 */
 	@RequestMapping(value="/processUser")
-	public ModelAndView processUser(@ModelAttribute("userClass") User u) {
-		return new ModelAndView("redirect:/user");
+	@ModelAttribute("userClass")
+	public ModelAndView processUser(@ModelAttribute("usr") String username) {
+		System.out.println("user: " + username);
+		User u = new User(username);
+		ModelAndView mv = new ModelAndView("redirect:/user");
+		mv.addObject("userClass", u);
+		
+		return mv;
 	}
 	
+	/**
+	 * Sign a user up
+	 * If the username has not been used before, add it and the password to the database
+	 * Adding plaintext passwords is bad but this is just a prototype
+	 * @param username String username from the signup form submission
+	 * @param password String password from the signup form submission
+	 * @return ModelAndView redirecting to processUser or login
+	 */
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	@ModelAttribute("userClass")
 	public ModelAndView handleSignup(@ModelAttribute("u") String username, @ModelAttribute("p") String password) {
 		
 		Signup s = new Signup(username, password);
 		
 		if (s.isValid()) {
 			s.createAccount();
-			User u = new User(username);
+			
 			ModelAndView mv = new ModelAndView("redirect:/processUser");
-			mv.addObject("userClass", u);
+			mv.addObject("usr", username);
 			
 			return mv;
 		}
