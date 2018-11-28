@@ -44,7 +44,6 @@ public class DBCollectionFactory {
 	 */
 	public static DBCollection getCollection(String collectionName) {
 		if (mc == null || db == null) {
-			System.out.println("initializing the factory");
 			initializeFactory();
 		}
 		

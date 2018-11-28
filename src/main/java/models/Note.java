@@ -91,9 +91,7 @@ public class Note {
 		dbColl.writeToDatabase(dbId, noteDoc);
 		noteDoc = dbColl.getDocumentByFilter(noteDoc);
 		ObjectId oid = (ObjectId) noteDoc.get("_id");
-		System.out.println(dbId);
 		dbId = oid.toHexString();
-		System.out.println(dbId);
 	}
 	
 	/**

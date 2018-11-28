@@ -1,10 +1,5 @@
 package models;
 
-import org.bson.Document;
-
-import mongo.DBCollection;
-import mongo.DBCollectionFactory;
-
 /**
  * Model for login
  * @author eoin

@@ -1,16 +1,12 @@
 package spring.controllers;
 
-import javax.servlet.ServletContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import models.Login;
@@ -34,7 +30,6 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(Model model) {
-		System.out.println("GET login");
 		ModelAndView mv = new ModelAndView("login");
 		mv.addObject("userClass", null);
 		return mv;
@@ -53,7 +48,6 @@ public class LoginController {
 		Login l = new Login(username, password);
 		
 		if (l.isValid()) {
-			System.out.println("redirecting");
 			ModelAndView mv = new ModelAndView("redirect:/processUser");
 			mv.addObject("usr", username);
 			
@@ -72,7 +66,6 @@ public class LoginController {
 	@RequestMapping(value="/processUser")
 	@ModelAttribute("userClass")
 	public ModelAndView processUser(@ModelAttribute("usr") String username) {
-		System.out.println("user: " + username);
 		User u = new User(username);
 		ModelAndView mv = new ModelAndView("redirect:/user");
 		mv.addObject("userClass", u);
