@@ -22,7 +22,7 @@ import models.User;
 @SessionAttributes("userClass")
 public class SearchController {
 	
-	Search s;
+	private Search s;
 	
 	@Autowired
 	private ServletContext sc;

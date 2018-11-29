@@ -125,7 +125,7 @@ public class DBCollection {
 	}
 	
 	/**
-	 * Search mutliple fields of mongo collection documents for text using $text index
+	 * Search multiple fields of mongo collection documents for text using $text index
 	 * @param query String query
 	 * @return Iterable<Document> of Documents matching this query
 	 */
